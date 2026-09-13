@@ -1,0 +1,17 @@
+syntax="proto3";
+
+package bitcoinpayserver.v1.services.wallet;
+
+service WalletService {
+  rpc Create(WalletRequest) returns (WalletResponse) {}
+
+  rpc Restore(WalletRequest) returns (WalletResponse) {}
+}
+
+message WalletRequest {
+  string owner_x_pubkey = 1;
+}
+
+message WalletResponse {
+  string owner_id = 1;
+}

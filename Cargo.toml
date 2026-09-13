@@ -1,0 +1,18 @@
+[package]
+name = "bitcoinpayd"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1.53.1", features = ["full"] }
+tonic = "0.14.6"
+tonic-prost = "0.14.6"
+prost = "0.14.4"
+axum = "0.8.9"
+tokio-postgres = { version = "0.7.18",features = ["with-uuid-1", "with-chrono-0_4"] }
+deadpool-postgres = "0.14.2"
+uuid = "1.26.0"
+chrono = { version = "0.4.45", features = ["serde"] }
+
+[build-dependencies]
+tonic-prost-build = "0.14.6"

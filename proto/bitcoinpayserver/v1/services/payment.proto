@@ -1,0 +1,28 @@
+syntax="proto3";
+
+package bitcoinpayserver.v1.services.payment;
+
+service PaymentService {
+  rpc Receive(PaymentRequest) returns (PaymentResponse) {}
+}
+
+message PaymentRequest {
+  string owner_id = 1;
+  string amount = 2;
+  string network = 3;
+  string currency_code = 4;
+  map<string, string> metadata = 5;
+}
+
+message PaymentResponse {
+  string id = 1;
+  string owner_id = 2;
+  string amount = 3;
+  string currency_code = 4;
+  string address = 5;
+  int32 child_key_index = 6;
+  string network = 7;
+  int64 created_at = 8;
+  string payment_status = 9;
+  map<string, string> metadata = 10;
+}
