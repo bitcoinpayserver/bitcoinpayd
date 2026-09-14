@@ -14,13 +14,15 @@ pub struct BWalletService {
 impl BWalletService {
     pub const CREATE_TABLE: &'static str = "CREATE TABLE IF NOT EXISTS bwallets (
         id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-        owner_x_pubkey VARCHAR(162) NOT NULL UNIQUE
+        owner_x_pubkey VARCHAR(162) NOT NULL UNIQUE,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );";
 
     pub const CREATE_CHILD_KEYS_TABLE: &'static str = "CREATE TABLE IF NOT EXISTS bchild_keys (
         id UUID DEFAULT gen_random_uuid() PRIMARY KEY ,
         wallet_id UUID NOT NULL REFERENCES bwallets (id),
-        index INT NOT NULL CHECK(index >= 0 AND index <= 2147483647)
+        index INT NOT NULL CHECK(index >= 0 AND index <= 2147483647),
+        created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );";
 
     pub const INSERT: &'static str = "INSERT INTO bwallets (owner_x_pubkey) VALUES ($1) RETURNING id";

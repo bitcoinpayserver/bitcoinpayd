@@ -2,5 +2,5 @@ GRPC localhost:50051/bitcoinpayserver.v1.services.wallet.WalletService/Create
 Content-Type: application/json
 
 {
-  "owner_x_pubkey": "tpubE6sRwoqzimGVzxKRKBr2SodpxumTF2Hv1rYsagewSQfj9yx2cNw3AMSkTQjwzMnqdJPDd329F6q1amD8MQHTugRvC1rAP6SYVoCMaiqxh2rt38"
+  "owner_x_pubkey": "tpubDG5KEfa5LG3NC7RLsJxxajR9MF7vZqKd1YexvS4LpVthKeu9gnGoNpt8FnUtb4iHnb4GbLD37LFHyCq4ouydRAesPhe1sZg4cqdiFSRvr92"
 }
