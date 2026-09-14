@@ -14,5 +14,7 @@ deadpool-postgres = "0.14.2"
 uuid = "1.26.0"
 chrono = { version = "0.4.45", features = ["serde"] }
 
+bitcoin = "0.32.102"
+
 [build-dependencies]
 tonic-prost-build = "0.14.6"

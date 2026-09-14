@@ -1,4 +1,6 @@
+use std::str::FromStr;
 use std::sync::Arc;
+use bitcoin::bip32::Xpub;
 use tonic::{async_trait, Request, Response, Status};
 use uuid::Uuid;
 use crate::storage::database::PostgresDb;
@@ -33,8 +35,12 @@ impl BWalletService {
 #[async_trait]
 impl WalletService for BWalletService {
     async fn create(&self, request: Request<WalletRequest>) -> Result<Response<WalletResponse>, Status> {
-        let owner_x_pubkey = request.into_inner().owner_x_pubkey;
-        let id: Uuid = match self.db.query_one(Self::INSERT, &[&owner_x_pubkey]).await {
+        let owner_x_pubkey = match Xpub::from_str(request.into_inner().owner_x_pubkey.as_str()) {
+            Ok(x_pub) => x_pub,
+            Err(_) => return Err(Status::invalid_argument("invalid extended public key"))
+        };
+
+        let id: Uuid = match self.db.query_one(Self::INSERT, &[&owner_x_pubkey.to_string()]).await {
             Ok(response) => response.get("id"),
             Err(_) => return Err(Status::internal("Something went wrong."))
         };
