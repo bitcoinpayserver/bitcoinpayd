@@ -22,7 +22,7 @@ message PaymentResponse {
   string address = 5;
   int32 child_key_index = 6;
   string network = 7;
-  int64 created_at = 8;
-  string payment_status = 9;
-  map<string, string> metadata = 10;
+  string payment_status = 8;
+  map<string, string> metadata = 9;
+  int64 created_at = 10;
 }

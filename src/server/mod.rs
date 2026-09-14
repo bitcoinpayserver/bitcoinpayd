@@ -57,6 +57,7 @@ pub async fn start_server() -> Result<(), Box<dyn std::error::Error>> {
         &[
             BWalletService::CREATE_TABLE,
             BWalletService::CREATE_CHILD_KEYS_TABLE,
+            BPaymentService::CREATE_TABLE,
         ]
     ).await?;
 
