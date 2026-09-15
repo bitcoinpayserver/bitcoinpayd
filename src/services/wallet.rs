@@ -41,10 +41,10 @@ impl WalletService for BWalletService {
             Ok(x_pub) => x_pub,
             Err(_) => return Err(Status::invalid_argument("invalid extended public key"))
         };
-
+        
         let id: Uuid = match self.db.query_one(Self::INSERT, &[&owner_x_pubkey.to_string()]).await {
             Ok(response) => response.get("id"),
-            Err(_) => return Err(Status::internal("Something went wrong."))
+            Err(e) => return Err(Status::internal("Something went wrong."))
         };
 
         Ok(Response::new(WalletResponse { owner_id: id.to_string() }))

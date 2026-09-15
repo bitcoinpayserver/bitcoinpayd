@@ -51,7 +51,7 @@ impl Config {
 pub async fn start_server() -> Result<(), Box<dyn std::error::Error>> {
     let config = Config::new();
 
-    let postgres_db = Arc::new(PostgresDb::new(&config));
+    let postgres_db = Arc::new(PostgresDb::new(Some(&config)).await?);
 
     postgres_db.create_tables(
         &[
