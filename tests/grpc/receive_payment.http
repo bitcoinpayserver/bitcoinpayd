@@ -1,0 +1,12 @@
+GRPC localhost:50051/bitcoinpayserver.v1.services.payment.PaymentService/Receive
+Content-Type: application/json
+
+{
+  "owner_id": "cb8082c0-d844-4b62-93f6-055636345483",
+  "amount": "3.7",
+  "currency_code": "XBT",
+  "network": "Testnet",
+  "metadata": {
+    "Payment": "Test payment 1"
+  }
+}

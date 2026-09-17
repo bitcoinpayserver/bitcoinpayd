@@ -1,6 +1,6 @@
 use std::error::Error;
 use crate::server::Config;
-use deadpool_postgres::{Manager, Pool};
+use deadpool_postgres::{Manager, Pool, Transaction};
 use std::str::FromStr;
 use postgresql_embedded::{PostgreSQL, Settings};
 use tokio_postgres::types::ToSql;
@@ -52,10 +52,22 @@ impl PostgresDb {
         Ok(())
     }
 
+    pub fn get_pool(&self) -> &Pool {
+        &self.pool
+    }
+    
+    // Normal queries
     pub async fn query_one(&self, query: &str, args: &[&(dyn ToSql + Sync)]) -> Result<Row, Box<dyn Error>> {
         let connection = self.pool.get().await?;
         let statement = connection.prepare(query).await?;
         let row = connection.query_one(&statement, args).await?;
+        Ok(row)
+    }
+
+    // Transactional queries
+    pub async fn tx_query_one(tx: &Transaction<'_>, query: &str, args: &[&(dyn ToSql + Sync)]) -> Result<Row, Box<dyn Error>> {
+        let statement = tx.prepare(query).await?;
+        let row = tx.query_one(&statement, args).await?;
         Ok(row)
     }
 

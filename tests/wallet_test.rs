@@ -19,7 +19,9 @@ fn test_new_address_derivation_on_testnet() {
 
         assert!(result.is_ok());
 
-        let address = result.unwrap().to_string();
+        let address = result.unwrap();
+        
+        let address = address.to_string();
 
         assert!(!address.is_empty());
         assert!(address.starts_with("tb"));
