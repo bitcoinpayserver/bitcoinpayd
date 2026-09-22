@@ -1,20 +1,18 @@
-use std::collections::HashMap;
-use std::error::Error;
-use std::str::FromStr;
-use std::sync::Arc;
-use bitcoin::bip32::Xpub;
-use bitcoin::Network;
-use chrono::{DateTime, Utc};
-use deadpool_postgres::Transaction;
-use rust_decimal::Decimal;
-use serde_json::{from_value, to_value, Value};
-use tonic::{async_trait, Request, Response, Status};
-use uuid::Uuid;
 use crate::core::wallet::HDWallet;
 use crate::payment::payment_service_server::PaymentService;
 use crate::payment::{PaymentRequest, PaymentResponse};
 use crate::services::wallet::BWalletService;
 use crate::storage::database::PostgresDb;
+use bitcoin::Network;
+use chrono::{DateTime, Utc};
+use deadpool_postgres::Transaction;
+use rust_decimal::Decimal;
+use serde_json::{from_value, to_value, Value};
+use std::collections::HashMap;
+use std::str::FromStr;
+use std::sync::Arc;
+use tonic::{async_trait, Request, Response, Status};
+use uuid::Uuid;
 
 pub struct BPaymentService {
     db: Arc<PostgresDb>,
@@ -141,8 +139,6 @@ impl PaymentService for BPaymentService {
         let new_address = HDWallet::new_address(owner_x_pubkey.to_string(), new_index, network)?;
 
         BWalletService::save_child_key(&db_tx, owner_id, new_index).await?;
-
-        eprintln!("{}", payment_request.amount);
 
         let payment_response = match Self::save_payment(
             &db_tx,

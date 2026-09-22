@@ -5,7 +5,7 @@ Content-Type: application/json
   "owner_id": "cb8082c0-d844-4b62-93f6-055636345483",
   "amount": "3.7",
   "currency_code": "XBT",
-  "network": "Testnet",
+  "network": "regtest",
   "metadata": {
     "Payment": "Test payment 1"
   }
