@@ -1,0 +1,2 @@
+POST http://localhost:50051/check/payment?id=29a36958-d610-4320-b1e3-5e115c62aead
+Content-Type: application/json

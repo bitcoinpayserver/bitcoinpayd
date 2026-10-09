@@ -5,9 +5,11 @@ use std::str::FromStr;
 use std::sync::Arc;
 use bitcoin::{Address, Network};
 use chrono::DateTime;
+use reqwest::Client;
 use tonic::Request;
 use uuid::Uuid;
 use bitcoinpayd::payment::PaymentRequest;
+use bitcoinpayd::server::Config;
 use bitcoinpayd::services::payment::BPaymentService;
 use bitcoinpayd::services::wallet::BWalletService;
 use bitcoinpayd::storage::database::PostgresDb;
@@ -66,6 +68,7 @@ async fn test_rejecting_invalid_payment_request() {
 }
 
 async fn setup_test_services() -> (BWalletService, BPaymentService) {
+    let config = Config::new();
     let postgres = PostgresDb::new(None).await.unwrap();
     let db = Arc::new(postgres);
 
@@ -77,8 +80,9 @@ async fn setup_test_services() -> (BWalletService, BPaymentService) {
         ]
     ).await.unwrap();
 
+    let http_client = Client::new();
     let wallet_service = BWalletService::new(db.clone());
-    let payment_service = BPaymentService::new(db.clone());
+    let payment_service = BPaymentService::new(&config, http_client, db.clone());
     (wallet_service, payment_service)
 }
 
