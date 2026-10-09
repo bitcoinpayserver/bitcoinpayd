@@ -45,7 +45,7 @@ impl BWalletService {
 
     pub async fn owner_x_pubkey(tx: &Transaction<'_>, owner_id: Uuid) -> Result<Xpub, Status> {
         let x_pubkey_row = PostgresDb::tx_query_one(tx, BWalletService::GET_BY_ID, &[&owner_id]).await.map_err(|_|
-            Status::internal("could not retrieve owner x-pubkey from database")
+            Status::internal("could not retrieve owner x-pubkey from_db database")
         )?;
         let x_pubkey = Xpub::from_str(x_pubkey_row.get("owner_x_pubkey")).map_err(|_|
             Status::internal("invalid owner x-pubkey")
@@ -55,10 +55,10 @@ impl BWalletService {
 
     pub async fn new_child_key_index(tx: &Transaction<'_>, owner_id: Uuid) -> Result<u32, Status> {
         let statement = tx.prepare(Self::GET_MAX_INDEX_BY_WALLET_ID).await.map_err(|_|
-            Status::internal("could not retrieve last child key index from database")
+            Status::internal("could not retrieve last child key index from_db database")
         )?;
         let row = tx.query_one(&statement, &[&owner_id]).await.map_err(|_|
-            Status::internal("could not retrieve last child key index from database")
+            Status::internal("could not retrieve last child key index from_db database")
         )?;
 
         let last_index: Option<i32> = row.get("max");
@@ -77,10 +77,8 @@ impl BWalletService {
         let statement = tx.prepare(Self::INSERT_CHILD_KEY_INDEX).await.map_err(|_|
         Status::internal("failed to prepare save new child key index statement")
         )?;
-        let row = tx.query_one(&statement, &[&wallet_id, &(index as i32)]).await.map_err(|e| {
-            eprintln!("{}", e);
+        let row = tx.query_one(&statement, &[&wallet_id, &(index as i32)]).await.map_err(|e|
             Status::internal("could not save child key index to database")
-        }
         )?;
         let id = row.get("id");
         Ok(id)

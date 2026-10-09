@@ -4,6 +4,10 @@ package bitcoinpayserver.v1.services.payment;
 
 service PaymentService {
   rpc Receive(PaymentRequest) returns (PaymentResponse) {}
+
+  rpc GetPayment(GetPaymentRequest) returns (PaymentResponse) {}
+
+  rpc UpdatePaymentStatus(PaymentStatusRequest) returns (PaymentStatusResponse) {}
 }
 
 message PaymentRequest {
@@ -26,3 +30,16 @@ message PaymentResponse {
   map<string, string> metadata = 9;
   int64 created_at = 10;
 }
+
+message GetPaymentRequest {
+  string id = 1;
+}
+
+message PaymentStatusRequest {
+  string payment_id = 1;
+  string tx_id = 2;
+  uint32 v_out = 3;
+  string status = 4;
+}
+
+message PaymentStatusResponse {}

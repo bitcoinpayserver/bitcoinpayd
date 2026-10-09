@@ -4,6 +4,7 @@ pub mod server;
 pub mod services;
 
 pub mod storage;
+pub mod network;
 
 pub mod payment {
     tonic::include_proto!("bitcoinpayserver.v1.services.payment");
